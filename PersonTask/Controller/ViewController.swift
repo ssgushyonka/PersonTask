@@ -1,46 +1,12 @@
-//
-//  ViewController.swift
-//  PersonTask
-//
-//  Created by Элина Борисова on 19.02.2025.
-//
-
 import UIKit
 
-class ViewController: UIViewController {
+final class ViewController: UIViewController {
+    // MARK: - Properties
+    var childrenData: [Child] = []
 
     // MARK: - UI Components
     private let nameTextView = CustomTextView(placeholder: "Имя")
     private let ageTextView = CustomTextView(placeholder: "Возраст")
-    private let addChildView = AddChildView()
-
-    private lazy var scrollView: UIScrollView = {
-        let scrollView = UIScrollView()
-        scrollView.backgroundColor = .white
-        scrollView.frame = view.bounds
-        scrollView.contentSize = contentSize
-        return scrollView
-    }()
-
-    private lazy var contentView: UIView = {
-        let contentView = UIView()
-        contentView.backgroundColor = .white
-        contentView.frame.size = contentSize
-        return contentView
-    }()
-
-    private let stackView: UIStackView = {
-        let stackView = UIStackView()
-        stackView.axis = .vertical
-        stackView.alignment = .center
-        stackView.spacing = 20
-        stackView.translatesAutoresizingMaskIntoConstraints = false
-        return stackView
-    }()
-    private var contentSize: CGSize {
-        CGSize(width: view.frame.width, height: view.frame.height + 500)
-    }
-
     private let personalLabel: UILabel = {
         let label = UILabel()
         label.text = "Персональные данные"
@@ -50,49 +16,165 @@ class ViewController: UIViewController {
         return label
     }()
 
+    private let childLabel: UILabel = {
+        let label = UILabel()
+        label.text = "Дети (макс. 5)"
+        label.textColor = .black
+        label.font = .systemFont(ofSize: 20, weight: .medium)
+        label.translatesAutoresizingMaskIntoConstraints = false
+        return label
+    }()
+
+    private lazy var addChildButton: UIButton = {
+        let button = UIButton()
+        button.setTitle("Добавить ребенка", for: .normal)
+        button.setTitleColor(.systemBlue, for: .normal)
+        button.backgroundColor = .white
+        button.layer.cornerRadius = 24
+        button.layer.borderWidth = 2
+        button.layer.borderColor = UIColor.systemBlue.cgColor
+        button.addTarget(self, action: #selector(addChildButtonTapped), for: .touchUpInside)
+        button.translatesAutoresizingMaskIntoConstraints = false
+        return button
+    }()
+
+    private let childrenTableView: UITableView = {
+        let tableView = UITableView()
+        tableView.rowHeight = 165
+        tableView.register(ChildTableViewCell.self, forCellReuseIdentifier: ChildTableViewCell.identifier)
+        tableView.translatesAutoresizingMaskIntoConstraints = false
+        return tableView
+    }()
+
+    private lazy var cleanButton: UIButton = {
+        let button = UIButton()
+        button.setTitle("Очистить", for: .normal)
+        button.setTitleColor(.systemRed, for: .normal)
+        button.backgroundColor = .white
+        button.layer.cornerRadius = 24
+        button.layer.borderWidth = 2
+        button.layer.borderColor = UIColor.systemRed.cgColor
+        button.addTarget(self, action: #selector(clearButtonTapped), for: .touchUpInside)
+        button.translatesAutoresizingMaskIntoConstraints = false
+        return button
+    }()
+
     // MARK: - Override funcs
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .white
+        childrenTableView.delegate = self
+        childrenTableView.dataSource = self
+        if childrenData.isEmpty {
+            let defaultChild = Child(name: "", age: "")
+            childrenData.append(defaultChild)
+        }
         setupViews()
         setupConstraints()
+        DispatchQueue.main.async {
+            self.childrenTableView.reloadData()
+        }
     }
-    
     // MARK: - Setup UI funcs
     private func setupViews() {
-        view.addSubview(scrollView)
-        scrollView.addSubview(contentView)
-        contentView.addSubview(stackView)
-        stackView.addArrangedSubview(personalLabel)
-        stackView.addArrangedSubview(nameTextView)
-        stackView.addArrangedSubview(ageTextView)
-        stackView.addArrangedSubview(addChildView)
+        view.addSubview(personalLabel)
+        view.addSubview(nameTextView)
+        view.addSubview(ageTextView)
+        view.addSubview(childLabel)
+        view.addSubview(childrenTableView)
+        view.addSubview(addChildButton)
+        view.addSubview(cleanButton)
     }
 
     private func setupConstraints() {
         NSLayoutConstraint.activate([
-            // StackView constaints
-            stackView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 20),
-            stackView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
-            stackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
-            stackView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
-
             // PersonalLabel constraints
-            personalLabel.leadingAnchor.constraint(equalTo: stackView.leadingAnchor, constant: 15),
+            personalLabel.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 20),
+            personalLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 15),
             personalLabel.heightAnchor.constraint(equalToConstant: 20),
 
             // NameTextView constraints
-            nameTextView.leadingAnchor.constraint(equalTo: stackView.leadingAnchor, constant: 15),
-            nameTextView.trailingAnchor.constraint(equalTo: stackView.trailingAnchor, constant: -15),
+            nameTextView.topAnchor.constraint(equalTo: personalLabel.bottomAnchor, constant: 25),
+            nameTextView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 15),
+            nameTextView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -15),
             nameTextView.heightAnchor.constraint(equalToConstant: 63),
 
             // AgeTextView constraints
-            ageTextView.leadingAnchor.constraint(equalTo: stackView.leadingAnchor, constant: 15),
-            ageTextView.trailingAnchor.constraint(equalTo: stackView.trailingAnchor, constant: -15),
+            ageTextView.topAnchor.constraint(equalTo: nameTextView.bottomAnchor, constant: 13),
+            ageTextView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 15),
+            ageTextView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -15),
             ageTextView.heightAnchor.constraint(equalToConstant: 63),
 
-            addChildView.leadingAnchor.constraint(equalTo: stackView.leadingAnchor, constant: 15),
-            addChildView.trailingAnchor.constraint(equalTo: stackView.trailingAnchor, constant: -15)
+            // ChildLabel constraints
+            childLabel.topAnchor.constraint(equalTo: ageTextView.bottomAnchor, constant: 33),
+            childLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 15),
+
+            // AddChildButton constraints
+            addChildButton.topAnchor.constraint(equalTo: ageTextView.bottomAnchor, constant: 20),
+            addChildButton.leadingAnchor.constraint(equalTo: childLabel.trailingAnchor, constant: 18),
+            addChildButton.heightAnchor.constraint(equalToConstant: 50),
+            addChildButton.widthAnchor.constraint(equalToConstant: 200),
+
+            // ChildrenTableView constraints
+            childrenTableView.topAnchor.constraint(equalTo: addChildButton.bottomAnchor, constant: 20),
+            childrenTableView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 15),
+            childrenTableView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -15),
+            childrenTableView.bottomAnchor.constraint(equalTo: cleanButton.topAnchor, constant: -20),
+
+            // CleanButton constraints
+            cleanButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 80),
+            cleanButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -80),
+            cleanButton.heightAnchor.constraint(equalToConstant: 50),
+            cleanButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -65)
         ])
+    }
+    // MARK: - Action funcs
+    @objc private func addChildButtonTapped() {
+        let newChild = Child(name: "", age: "")
+        childrenData.append(newChild)
+        childrenTableView.insertRows(at: [IndexPath(row: childrenData.count - 1, section: 0)], with: .automatic)
+        if childrenData.count == 5 {
+            addChildButton.isHidden = true
+        }
+    }
+
+    @objc private func clearButtonTapped() {
+        let actionSheet = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+        actionSheet.addAction(UIAlertAction(title: "Сбросить данные", style: .destructive, handler: { [weak self] _ in
+            guard let self = self else { return }
+            self.nameTextView.text = ""
+            self.ageTextView.text = ""
+            self.childrenData = [Child(name: "", age: "")]
+            self.childrenTableView.reloadData()
+            self.addChildButton.isHidden = false
+        }))
+        actionSheet.addAction(UIAlertAction(title: "Отмена", style: .cancel, handler: nil))
+        present(actionSheet, animated: true)
+    }
+}
+
+// MARK: - ViewController extension
+extension ViewController: UITableViewDelegate, UITableViewDataSource {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return childrenData.count
+    }
+
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        guard let cell = tableView.dequeueReusableCell(
+            withIdentifier: ChildTableViewCell.identifier,
+            for: indexPath
+        ) as? ChildTableViewCell else {
+            return UITableViewCell()
+        }
+
+        let child = childrenData[indexPath.row]
+        cell.configure(with: child)
+
+        cell.onUpdate = { [weak self] name, age in
+            guard let self = self else { return }
+            self.childrenData[indexPath.row] = Child(name: name, age: age)
+        }
+
+        return cell
     }
 }

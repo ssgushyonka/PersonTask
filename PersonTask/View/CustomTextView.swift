@@ -6,13 +6,14 @@ protocol PlaceholderText {
 }
 
 final class CustomTextView: UITextView, PlaceholderText {
+    // MARK: - Properties
+    var onTextChanged: ((String) -> Void)?
     var placeholderText: String = "" {
         didSet {
             placeHolderLabel.text = placeholderText
         }
     }
 
-    var onTextChanged: ((String) -> Void)?
     // MARK: - UI Components
     private let placeHolderLabel: UILabel = {
         let label = UILabel()
@@ -42,6 +43,7 @@ final class CustomTextView: UITextView, PlaceholderText {
         addSubview(placeHolderLabel)
         placeHolderLabel.text = placeholder
 
+        // Setup placeholder constraints
         NSLayoutConstraint.activate([
             placeHolderLabel.topAnchor.constraint(equalTo: self.topAnchor, constant: 8),
             placeHolderLabel.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 15)
@@ -52,13 +54,18 @@ final class CustomTextView: UITextView, PlaceholderText {
         fatalError("init(coder:) has not been implemented")
     }
     private func setupGesture() {
-        NotificationCenter.default.addObserver(self, selector: #selector(textDidChange(_:)), name: UITextView.textDidChangeNotification, object: self)
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(textDidChange(_:)),
+            name: UITextView.textDidChangeNotification,
+            object: self
+        )
     }
-    
+
     @objc private func textDidChange(_ notification: Notification) {
         onTextChanged?(self.text)
     }
-    
+
     deinit {
         NotificationCenter.default.removeObserver(self)
     }
