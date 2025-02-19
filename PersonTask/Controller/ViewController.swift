@@ -7,6 +7,7 @@ final class ViewController: UIViewController {
     // MARK: - UI Components
     private let nameTextView = CustomTextView(placeholder: "Имя")
     private let ageTextView = CustomTextView(placeholder: "Возраст")
+
     private let personalLabel: UILabel = {
         let label = UILabel()
         label.text = "Персональные данные"
@@ -198,7 +199,7 @@ extension ViewController {
         tap.cancelsTouchesInView = false
         view.addGestureRecognizer(tap)
     }
-    
+
     @objc func dismissKeyboard() {
         view.endEditing(true)
     }
