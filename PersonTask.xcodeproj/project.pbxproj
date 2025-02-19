@@ -11,6 +11,10 @@
 		320718162D665C1500ACEAD3 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 320718152D665C1500ACEAD3 /* SceneDelegate.swift */; };
 		320718182D665C1500ACEAD3 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 320718172D665C1500ACEAD3 /* ViewController.swift */; };
 		3207181D2D665C1600ACEAD3 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3207181C2D665C1600ACEAD3 /* Assets.xcassets */; };
+		3207182B2D665E2900ACEAD3 /* Child.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3207182A2D665E2900ACEAD3 /* Child.swift */; };
+		3207182F2D665E9400ACEAD3 /* ColorsExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3207182E2D665E9400ACEAD3 /* ColorsExtension.swift */; };
+		320718332D665EF000ACEAD3 /* ChildTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 320718322D665EF000ACEAD3 /* ChildTableViewCell.swift */; };
+		320718352D66667100ACEAD3 /* CustomTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 320718342D66667100ACEAD3 /* CustomTextView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -20,6 +24,10 @@
 		320718172D665C1500ACEAD3 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		3207181C2D665C1600ACEAD3 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		320718212D665C1600ACEAD3 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		3207182A2D665E2900ACEAD3 /* Child.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Child.swift; sourceTree = "<group>"; };
+		3207182E2D665E9400ACEAD3 /* ColorsExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorsExtension.swift; sourceTree = "<group>"; };
+		320718322D665EF000ACEAD3 /* ChildTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChildTableViewCell.swift; sourceTree = "<group>"; };
+		320718342D66667100ACEAD3 /* CustomTextView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTextView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -52,13 +60,49 @@
 		320718122D665C1500ACEAD3 /* PersonTask */ = {
 			isa = PBXGroup;
 			children = (
+				3207182D2D665E8700ACEAD3 /* Extensions */,
+				320718292D665E0000ACEAD3 /* Controller */,
+				320718282D665DFB00ACEAD3 /* View */,
+				320718272D665DF500ACEAD3 /* Model */,
 				320718132D665C1500ACEAD3 /* AppDelegate.swift */,
 				320718152D665C1500ACEAD3 /* SceneDelegate.swift */,
-				320718172D665C1500ACEAD3 /* ViewController.swift */,
 				3207181C2D665C1600ACEAD3 /* Assets.xcassets */,
 				320718212D665C1600ACEAD3 /* Info.plist */,
 			);
 			path = PersonTask;
+			sourceTree = "<group>";
+		};
+		320718272D665DF500ACEAD3 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				3207182A2D665E2900ACEAD3 /* Child.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		320718282D665DFB00ACEAD3 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				320718322D665EF000ACEAD3 /* ChildTableViewCell.swift */,
+				320718342D66667100ACEAD3 /* CustomTextView.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		320718292D665E0000ACEAD3 /* Controller */ = {
+			isa = PBXGroup;
+			children = (
+				320718172D665C1500ACEAD3 /* ViewController.swift */,
+			);
+			path = Controller;
+			sourceTree = "<group>";
+		};
+		3207182D2D665E8700ACEAD3 /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				3207182E2D665E9400ACEAD3 /* ColorsExtension.swift */,
+			);
+			path = Extensions;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -75,6 +119,7 @@
 			buildRules = (
 			);
 			dependencies = (
+				320718312D665EC500ACEAD3 /* PBXTargetDependency */,
 			);
 			name = PersonTask;
 			productName = PersonTask;
@@ -105,6 +150,9 @@
 				Base,
 			);
 			mainGroup = 320718072D665C1500ACEAD3;
+			packageReferences = (
+				3207182C2D665E6600ACEAD3 /* XCRemoteSwiftPackageReference "SwiftLint" */,
+			);
 			productRefGroup = 320718112D665C1500ACEAD3 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -130,13 +178,24 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3207182F2D665E9400ACEAD3 /* ColorsExtension.swift in Sources */,
 				320718182D665C1500ACEAD3 /* ViewController.swift in Sources */,
 				320718142D665C1500ACEAD3 /* AppDelegate.swift in Sources */,
+				3207182B2D665E2900ACEAD3 /* Child.swift in Sources */,
+				320718352D66667100ACEAD3 /* CustomTextView.swift in Sources */,
+				320718332D665EF000ACEAD3 /* ChildTableViewCell.swift in Sources */,
 				320718162D665C1500ACEAD3 /* SceneDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		320718312D665EC500ACEAD3 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			productRef = 320718302D665EC500ACEAD3 /* SwiftLintBuildToolPlugin */;
+		};
+/* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
 		320718222D665C1600ACEAD3 /* Debug */ = {
@@ -334,6 +393,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		3207182C2D665E6600ACEAD3 /* XCRemoteSwiftPackageReference "SwiftLint" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/realm/SwiftLint";
+			requirement = {
+				kind = exactVersion;
+				version = 0.58.2;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		320718302D665EC500ACEAD3 /* SwiftLintBuildToolPlugin */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 3207182C2D665E6600ACEAD3 /* XCRemoteSwiftPackageReference "SwiftLint" */;
+			productName = "plugin:SwiftLintBuildToolPlugin";
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 320718082D665C1500ACEAD3 /* Project object */;
 }
