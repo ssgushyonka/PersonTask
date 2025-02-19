@@ -3,7 +3,7 @@
 //  PersonTask
 //
 //  Created by Элина Борисова on 19.02.2025.
-//
+// swiftlint:disable all
 
 import UIKit
 
@@ -51,4 +51,4 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
 
 }
-
+// swiftlint:enable all
