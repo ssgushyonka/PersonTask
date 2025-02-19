@@ -53,6 +53,19 @@ final class CustomTextView: UITextView, PlaceholderText {
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
+
+    // MARK: - Override funcs
+    override var intrinsicContentSize: CGSize {
+        let size = super.intrinsicContentSize
+        let height = max(size.height, 50)
+        if height.isNaN {
+            print("NaN error")
+            return CGSize(width: size.width, height: 50)
+        }
+        return CGSize(width: size.width, height: height)
+    }
+
+    // MARK: - Private funcs
     private func setupGesture() {
         NotificationCenter.default.addObserver(
             self,
@@ -62,10 +75,11 @@ final class CustomTextView: UITextView, PlaceholderText {
         )
     }
 
-    @objc private func textDidChange(_ notification: Notification) {
+    // MARK: - Action funcs
+    @objc
+    private func textDidChange(_ notification: Notification) {
         onTextChanged?(self.text)
     }
-
     deinit {
         NotificationCenter.default.removeObserver(self)
     }
@@ -73,6 +87,8 @@ final class CustomTextView: UITextView, PlaceholderText {
 
 extension CustomTextView: UITextViewDelegate {
     func textViewDidChange(_ textView: UITextView) {
-        onTextChanged?(textView.text)
+        if let text = textView.text, !text.isEmpty {
+            onTextChanged?(textView.text)
+        }
     }
 }

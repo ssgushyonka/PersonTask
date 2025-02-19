@@ -63,8 +63,11 @@ final class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .white
+
         childrenTableView.delegate = self
         childrenTableView.dataSource = self
+
+        hideKeyboardWhenTappedAround()
         if childrenData.isEmpty {
             let defaultChild = Child(name: "", age: "")
             childrenData.append(defaultChild)
@@ -133,9 +136,7 @@ final class ViewController: UIViewController {
         let newChild = Child(name: "", age: "")
         childrenData.append(newChild)
         childrenTableView.insertRows(at: [IndexPath(row: childrenData.count - 1, section: 0)], with: .automatic)
-        if childrenData.count == 5 {
-            addChildButton.isHidden = true
-        }
+        self.updateAddChildButtonHide()
     }
 
     @objc private func clearButtonTapped() {
@@ -151,9 +152,13 @@ final class ViewController: UIViewController {
         actionSheet.addAction(UIAlertAction(title: "Отмена", style: .cancel, handler: nil))
         present(actionSheet, animated: true)
     }
+    // MARK: - Private funcs
+    private func updateAddChildButtonHide() { // Функция для скрытия кнопки, если кол-во детей достигло 5
+        addChildButton.isHidden = childrenData.count >= 5
+    }
 }
 
-// MARK: - ViewController extension
+// MARK: - ViewController tableView extension
 extension ViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return childrenData.count
@@ -166,7 +171,6 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
         ) as? ChildTableViewCell else {
             return UITableViewCell()
         }
-
         let child = childrenData[indexPath.row]
         cell.configure(with: child)
 
@@ -174,7 +178,28 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
             guard let self = self else { return }
             self.childrenData[indexPath.row] = Child(name: name, age: age)
         }
+        cell.onDelete = { [weak self] in
+            guard let self = self else { return }
+            guard let indexPath = tableView.indexPath(for: cell) else { return }
+            guard indexPath.row < self.childrenData.count else { return }
 
+            self.childrenData.remove(at: indexPath.row)
+            tableView.deleteRows(at: [indexPath], with: .fade)
+            self.updateAddChildButtonHide()
+        }
+        cell.selectionStyle = .none
         return cell
+    }
+}
+// MARK: - ViewController hide keyboard extension
+extension ViewController {
+    func hideKeyboardWhenTappedAround() {
+        let tap = UITapGestureRecognizer(target: self, action: #selector(ViewController.dismissKeyboard))
+        tap.cancelsTouchesInView = false
+        view.addGestureRecognizer(tap)
+    }
+    
+    @objc func dismissKeyboard() {
+        view.endEditing(true)
     }
 }

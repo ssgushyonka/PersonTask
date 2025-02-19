@@ -6,12 +6,13 @@ final class ChildTableViewCell: UITableViewCell, UITextViewDelegate {
 
     // MARK: - Properties
     var onUpdate: ((String, String) -> Void)?
+    var onDelete: (() -> Void)?
 
     // MARK: - UI Components
     private let nameTextView = CustomTextView(placeholder: "Имя")
     private let ageTextView = CustomTextView(placeholder: "Возраст")
 
-    private let deleteButton: UIButton = {
+    private lazy var deleteButton: UIButton = {
         let button = UIButton()
         button.setTitle("Удалить", for: .normal)
         button.setTitleColor(.systemBlue, for: .normal)
@@ -25,6 +26,7 @@ final class ChildTableViewCell: UITableViewCell, UITextViewDelegate {
         self.backgroundColor = .white
         setupUI()
         setupConstraints()
+        setupHandlers()
     }
 
     required init?(coder: NSCoder) {
@@ -66,6 +68,11 @@ final class ChildTableViewCell: UITableViewCell, UITextViewDelegate {
     }
 
     func textViewDidChange(_ textView: UITextView) {
+        let textHeight = textView.contentSize.height
+        if textHeight.isNaN {
+            print("NaN error")
+            return
+        }
         onUpdate?(nameTextView.text ?? "", ageTextView.text ?? "")
     }
 
@@ -77,5 +84,12 @@ final class ChildTableViewCell: UITableViewCell, UITextViewDelegate {
         ageTextView.onTextChanged = { [weak self] text in
             self?.onUpdate?(self?.nameTextView.text ?? "", text)
         }
+        deleteButton.addTarget(self, action: #selector(deleteButtonTapped), for: .touchUpInside)
+    }
+
+    // MARK: - Action funcs
+    @objc
+    private func deleteButtonTapped() {
+        onDelete?()
     }
 }
