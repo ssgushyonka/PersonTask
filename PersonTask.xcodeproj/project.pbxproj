@@ -15,6 +15,7 @@
 		3207182F2D665E9400ACEAD3 /* ColorsExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3207182E2D665E9400ACEAD3 /* ColorsExtension.swift */; };
 		320718332D665EF000ACEAD3 /* ChildTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 320718322D665EF000ACEAD3 /* ChildTableViewCell.swift */; };
 		320718352D66667100ACEAD3 /* CustomTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 320718342D66667100ACEAD3 /* CustomTextView.swift */; };
+		320718372D6668E300ACEAD3 /* AddChildView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 320718362D6668E300ACEAD3 /* AddChildView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -28,6 +29,7 @@
 		3207182E2D665E9400ACEAD3 /* ColorsExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorsExtension.swift; sourceTree = "<group>"; };
 		320718322D665EF000ACEAD3 /* ChildTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChildTableViewCell.swift; sourceTree = "<group>"; };
 		320718342D66667100ACEAD3 /* CustomTextView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTextView.swift; sourceTree = "<group>"; };
+		320718362D6668E300ACEAD3 /* AddChildView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddChildView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -85,6 +87,7 @@
 			children = (
 				320718322D665EF000ACEAD3 /* ChildTableViewCell.swift */,
 				320718342D66667100ACEAD3 /* CustomTextView.swift */,
+				320718362D6668E300ACEAD3 /* AddChildView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -183,6 +186,7 @@
 				320718142D665C1500ACEAD3 /* AppDelegate.swift in Sources */,
 				3207182B2D665E2900ACEAD3 /* Child.swift in Sources */,
 				320718352D66667100ACEAD3 /* CustomTextView.swift in Sources */,
+				320718372D6668E300ACEAD3 /* AddChildView.swift in Sources */,
 				320718332D665EF000ACEAD3 /* ChildTableViewCell.swift in Sources */,
 				320718162D665C1500ACEAD3 /* SceneDelegate.swift in Sources */,
 			);

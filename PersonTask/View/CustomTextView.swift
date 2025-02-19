@@ -11,7 +11,7 @@ final class CustomTextView: UITextView, PlaceholderText {
             placeHolderLabel.text = placeholderText
         }
     }
-    
+
     var onTextChanged: ((String) -> Void)?
     // MARK: - UI Components
     private let placeHolderLabel: UILabel = {
@@ -22,12 +22,12 @@ final class CustomTextView: UITextView, PlaceholderText {
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
-    
+
     // MARK: - init
     init(placeholder: String) {
         self.placeholderText = placeholder
         super.init(frame: .zero, textContainer: nil)
-        
+
         self.layer.cornerRadius = 5
         self.layer.masksToBounds = true
         self.backgroundColor = .white
@@ -38,16 +38,16 @@ final class CustomTextView: UITextView, PlaceholderText {
         self.font = .systemFont(ofSize: 17)
         self.translatesAutoresizingMaskIntoConstraints = false
         self.delegate = self
-        
+
         addSubview(placeHolderLabel)
         placeHolderLabel.text = placeholder
-        
+
         NSLayoutConstraint.activate([
             placeHolderLabel.topAnchor.constraint(equalTo: self.topAnchor, constant: 8),
             placeHolderLabel.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 15)
         ])
     }
-    
+
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
