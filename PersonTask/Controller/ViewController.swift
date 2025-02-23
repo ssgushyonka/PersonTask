@@ -41,6 +41,7 @@ final class ViewController: UIViewController {
 
     private let childrenTableView: UITableView = {
         let tableView = UITableView()
+        tableView.backgroundColor = .white
         tableView.rowHeight = 165
         tableView.register(ChildTableViewCell.self, forCellReuseIdentifier: ChildTableViewCell.identifier)
         tableView.translatesAutoresizingMaskIntoConstraints = false
